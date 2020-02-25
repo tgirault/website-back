@@ -12,11 +12,21 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver;
 
+/**
+ * The Class CustomLocaleResolver.
+ */
 @Configuration
 public class CustomLocaleResolver extends AcceptHeaderLocaleResolver implements WebMvcConfigurer {
 
+	/** The locales. */
 	List<Locale> LOCALES = Arrays.asList(new Locale("en"), new Locale("fr"));
 
+	/**
+	 * Resolve locale.
+	 *
+	 * @param request the request
+	 * @return the locale
+	 */
 	@Override
 	public Locale resolveLocale(HttpServletRequest request) {
 		String headerLang = request.getHeader("Accept-Language");
@@ -24,6 +34,11 @@ public class CustomLocaleResolver extends AcceptHeaderLocaleResolver implements 
 				: Locale.lookup(Locale.LanguageRange.parse(headerLang), LOCALES);
 	}
 
+	/**
+	 * Message source.
+	 *
+	 * @return the resource bundle message source
+	 */
 	@Bean
 	public ResourceBundleMessageSource messageSource() {
 		ResourceBundleMessageSource rs = new ResourceBundleMessageSource();
